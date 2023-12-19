@@ -31,11 +31,14 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // localStorage.getItem("cookieFallback") === null
-    if (localStorage.getItem("cookieFallback") === "[]") navigate("/sign-in");
+    if (
+      localStorage.getItem("cookieFallback") === "[]" ||
+      localStorage.getItem("cookieFallback") === null
+    )
+      navigate("/sign-in");
 
     checkAuthUser();
-  }, []);
+  }, [navigate]);
 
   const checkAuthUser = async () => {
     try {
