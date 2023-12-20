@@ -8,7 +8,7 @@ export async function createUserAccount(user: INewUser) {
       ID.unique(),
       user.email,
       user.password,
-      user.name
+      user.name,
     );
 
     if (!newAccount) throw Error;
@@ -42,7 +42,7 @@ export async function saveUserToDB(user: {
       appwriteConfig.databaseId,
       appwriteConfig.userCollectionId,
       ID.unique(),
-      user
+      user,
     );
     return newUser;
   } catch (error) {
@@ -80,7 +80,7 @@ export async function getCurrentUser() {
     const currentUser = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.userCollectionId,
-      [Query.equal("accountId", currentAccount.$id)]
+      [Query.equal("accountId", currentAccount.$id)],
     );
 
     if (!currentUser) throw Error;
@@ -89,5 +89,14 @@ export async function getCurrentUser() {
   } catch (error) {
     console.log(error);
     return null;
+  }
+}
+
+export async function signOutAccount() {
+  try {
+    const session = await account.deleteSession("current");
+    return session;
+  } catch (error) {
+    console.log(error);
   }
 }
