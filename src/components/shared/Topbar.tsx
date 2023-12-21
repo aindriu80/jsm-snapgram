@@ -1,14 +1,21 @@
-import { signOutAccount } from "@/lib/appwrite/api";
-import React from "react";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "../ui/button";
+import { useSignOutAccountMutation } from "@/lib/react-query/queriesAndMutations";
 
 const Topbar = () => {
+  const { mutate: signOutAccount, isSuccess } = useSignOutAccountMutation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isSuccess) navigate(0);
+  }, [isSuccess]);
   return (
     <section className="topbar">
       <div className="flex-between py-4 px-5">
-        <Link to="/" className="flex fap-2 items-centre">
+        <Link to="/" className="flex gap-3 items-center">
           <img
-            src="/assets/images/logo.svy"
+            src="/assets/images/logo.svg"
             alt="logo"
             width={130}
             height={325}
@@ -16,13 +23,13 @@ const Topbar = () => {
         </Link>
 
         <div className="flex gap-4">
-          <button
+          <Button
             variant="ghost"
             className="shad-button"
-            onClick={signOutAccount()}
+            onClick={() => signOutAccount()}
           >
             <img src="/assets/icons/logout.svg" alt="logout" />
-          </button>
+          </Button>
         </div>
       </div>
     </section>
