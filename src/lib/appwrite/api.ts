@@ -222,7 +222,7 @@ export async function savePost(postId: string, userId: string) {
     const updatedPost = await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.savesCollectionId,
-      ID.uniqute(),
+      ID.unique(),
       {
         user: userId,
         post: postId,
@@ -234,7 +234,6 @@ export async function savePost(postId: string, userId: string) {
   } catch (error) {
     console.log(error);
   }
-  c;
 }
 
 export async function deleteSavedPost(savedRecordId: string) {
@@ -250,5 +249,4 @@ export async function deleteSavedPost(savedRecordId: string) {
   } catch (error) {
     console.log(error);
   }
-  c;
 }
