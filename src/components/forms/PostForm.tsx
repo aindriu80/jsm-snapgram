@@ -20,6 +20,7 @@ import { useUserContext } from "@/context/AuthContext";
 import { useToast } from "../ui/use-toast";
 import { useCreatePost } from "@/lib/react-query/queries";
 import { useNavigate } from "react-router-dom";
+import { useUpdatePost } from "@/lib/react-query/queriesAndMutations";
 
 type PostFormProps = {
   post?: Models.Document;
@@ -33,6 +34,9 @@ const PostForm = ({ post, action }: PostFormProps) => {
   const { mutateAsync: createPost, isPending: isLoadingCreate } =
     useCreatePost();
 
+  const { mutateAsync: updatePost, isPending: isLoadingUpdate } =
+    useUpdatePost();
+
   const form = useForm<z.infer<typeof PostValidation>>({
     resolver: zodResolver(PostValidation),
     defaultValues: {
@@ -44,6 +48,18 @@ const PostForm = ({ post, action }: PostFormProps) => {
   });
 
   async function onSubmit(values: z.infer<typeof PostValidation>) {
+    if (post && action === "Update") {
+      const updatedPost = await updatePost({
+        ...values,
+        postId: post.$id,
+        imageId: post?.imageId,
+        imageUrl: post?.imageurl,
+      });
+      if (!updatedPost) {
+        toast({ title: "Please try again" });
+      }
+      return navigate(`/posts/${post.$id}`);
+    }
     const newPost = await createPost({
       ...values,
       userId: user.id,
@@ -56,7 +72,6 @@ const PostForm = ({ post, action }: PostFormProps) => {
     }
     navigate("/");
   }
-  console.log(post.imageUrl);
 
   return (
     <Form {...form}>
@@ -140,8 +155,10 @@ const PostForm = ({ post, action }: PostFormProps) => {
           <Button
             type="submit"
             className="shad-button_primary whitespace-nowrap"
+            disabled={isLoadingCreate || isLoadingUpdate}
           >
-            Submit
+            {isLoadingCreate || (isLoadingUpdate && "Loading...")}
+            {action} Post
           </Button>
         </div>
       </form>
