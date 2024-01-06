@@ -18,9 +18,9 @@ import { SignupValidation } from "@/lib/validation";
 import { Loader } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  useCreateUserAccountMutation,
-  useSignInAccountMutation,
-} from "@/lib/react-query/queriesAndMutations";
+  useCreateUserAccount,
+  useSignInAccount,
+} from "@/lib/react-query/queries";
 import { useUserContext } from "@/context/AuthContext";
 
 const SignupForm = () => {
@@ -29,10 +29,10 @@ const SignupForm = () => {
   const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
 
   const { mutateAsync: createUserAccount, isPending: isCreatingUser } =
-    useCreateUserAccountMutation();
+    useCreateUserAccount();
 
   const { mutateAsync: signInAccount, isPending: isSigningIn } =
-    useSignInAccountMutation();
+    useSignInAccount();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof SignupValidation>>({

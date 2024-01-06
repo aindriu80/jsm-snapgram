@@ -1,18 +1,18 @@
-import PostStats from "@/components/shared/PostStats";
-import { Button } from "@/components/ui/button";
-import { useUserContext } from "@/context/AuthContext";
-import { useGetPostById } from "@/lib/react-query/queriesAndMutations";
-import { formatElapsedTime } from "@/lib/utils";
-import { Loader } from "lucide-react";
-import { useContext } from "react";
-import { Link, useParams } from "react-router-dom";
+import PostStats from '@/components/shared/PostStats'
+import { Button } from '@/components/ui/button'
+import { useUserContext } from '@/context/AuthContext'
+import { useGetPostById } from '@/lib/react-query/queries'
+import { formatElapsedTime } from '@/lib/utils'
+import { Loader } from 'lucide-react'
+import { useContext } from 'react'
+import { Link, useParams } from 'react-router-dom'
 
-const handleDelete = () => {};
+const handleDelete = () => {}
 
 const PostDetails = () => {
-  const { id } = useParams();
-  const { data: post, isPending } = useGetPostById(id || "");
-  const { user } = useUserContext();
+  const { id } = useParams()
+  const { data: post, isPending } = useGetPostById(id || '')
+  const { user } = useUserContext()
   return (
     <div className="post_details-container">
       {isPending ? (
@@ -28,13 +28,12 @@ const PostDetails = () => {
             <div className="flex-between w-full">
               <Link
                 to={`/profile/${post?.creator.$id}`}
-                className="flex items-center gap-3"
-              >
+                className="flex items-center gap-3">
                 <img
                   className="rounded-full w-8 h-8 lg:w-12 lg:h-12"
                   src={
                     post?.creator?.imageUrl ||
-                    "/assets/icons/profile-placeholder.svg"
+                    '/assets/icons/profile-placeholder.svg'
                   }
                   alt="creator"
                 />
@@ -57,8 +56,7 @@ const PostDetails = () => {
               <div className="flex-center">
                 <Link
                   to={`/update-post/${post?.$id}`}
-                  className={`${user.id !== post?.creator.$id && "hidden"}`}
-                >
+                  className={`${user.id !== post?.creator.$id && 'hidden'}`}>
                   <img
                     src="/assets/icons/edit.svg"
                     width={24}
@@ -70,9 +68,8 @@ const PostDetails = () => {
                   onClick={handleDelete}
                   variant="ghost"
                   className={`ghost_details-delete-btn ${
-                    user.id !== post?.creator.$id && "hidden"
-                  }`}
-                >
+                    user.id !== post?.creator.$id && 'hidden'
+                  }`}>
                   <img
                     src="/assets/icons/delete.svg"
                     alt="delete"
@@ -100,7 +97,7 @@ const PostDetails = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default PostDetails;
+export default PostDetails

@@ -1,14 +1,14 @@
 import React from "react";
 import { useEffect } from "react";
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
-import { useSignOutAccountMutation } from "@/lib/react-query/queriesAndMutations";
+import { useSignOutAccount } from "@/lib/react-query/queries";
 import { useUserContext } from "@/context/AuthContext";
 import { sidebarLinks } from "@/constants";
 import { INavLink } from "@/types";
 import { Button } from "../ui/button";
 
 const LeftSidebar = () => {
-  const { mutate: signOutAccount, isSuccess } = useSignOutAccountMutation();
+  const { mutate: signOutAccount, isSuccess } = useSignOutAccount();
   const navigate = useNavigate();
   const { user } = useUserContext();
   const { pathname } = useLocation();
@@ -37,7 +37,7 @@ const LeftSidebar = () => {
           />
           <div className="flex flex-col">
             <p className="body-bold">{user.name}</p>
-              <p className="small-regular text-light-3">@{user.username}</p>
+            <p className="small-regular text-light-3">@{user.username}</p>
           </div>
         </Link>
         <ul className="flex flex-col gap-6">
