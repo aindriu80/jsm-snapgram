@@ -9,7 +9,7 @@ import { useInView } from "react-intersection-observer";
 
 const Explore = () => {
   const { ref, inView } = useInView();
-  const { data: posts = [], fetchNextPage, hasNextPage } = useGetPosts();
+  const { data: posts, fetchNextPage, hasNextPage } = useGetPosts();
 
   const [searchValue, setSearchValue] = useState("");
   const debouncedValue = useDebounce(searchValue, 500);
