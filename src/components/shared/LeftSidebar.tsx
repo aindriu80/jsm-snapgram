@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useSignOutAccount } from "@/lib/react-query/queries";
-import { useUserContext } from "@/context/AuthContext";
+import { useUserContext, INITIAL_USER } from "@/context/AuthContext";
 import { sidebarLinks } from "@/constants";
 import { INavLink } from "@/types";
 import { Button } from "../ui/button";
