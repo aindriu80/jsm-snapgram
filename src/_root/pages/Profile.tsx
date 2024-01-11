@@ -1,10 +1,10 @@
- 
-import { useParams, useLocation,Link } from "react-router-dom";
+import { useParams, Route, Routes, useLocation, Link } from "react-router-dom";
 import { useUserContext } from "@/context/AuthContext";
 import { useGetUserById } from "@/lib/react-query/queries";
-import { GridPostList } from "@/components/shared/GridPostList";
+import GridPostList from "@/components/shared/GridPostList";
 import Loader from "@/components/shared/Loader";
 import { Button } from "@/components/ui/button";
+import LikedPosts from "./LikedPosts";
 
 const Profile = () => {
   const { id } = useParams();
@@ -75,7 +75,8 @@ const Profile = () => {
             to={`/profile/${id}`}
             className={`profile-tab rounded-l-lg ${
               pathname === `/profile/${id}` && "!bg-dark-3"
-            }`}>
+            }`}
+          >
             <img
               src={"/assets/icons/posts.svg"}
               alt="posts"
@@ -88,7 +89,8 @@ const Profile = () => {
             to={`/profile/${id}/liked-posts`}
             className={`profile-tab rounded-r-lg ${
               pathname === `/profile/${id}/liked-posts` && "!bg-dark-3"
-            }`}>
+            }`}
+          >
             <img
               src={"/assets/icons/like.svg"}
               alt="like"
@@ -99,6 +101,15 @@ const Profile = () => {
           </Link>
         </div>
       )}
+      <Routes>
+        <Route
+          index
+          element={<GridPostList posts={currentUser.posts} showUser={false} />}
+        />
+        {currentUser.$id === user.id && (
+          <Route path="/liked-posts" element={<LikedPosts />} />
+        )}
+      </Routes>
     </div>
   );
 };
